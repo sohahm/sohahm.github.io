@@ -7,6 +7,12 @@
     <title>HALA Eid Greeting </title>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
+      @font-face {
+        font-family: "FFShamelRounded";
+        src: url("./fonts/FFShamelRounded-Bold.otf") format("opentype");
+        font-weight: bold;
+        font-style: normal;
+      }
       body{
         text-align:center;
         font-family:Arial;
@@ -25,12 +31,15 @@
       
       #nameText{
         position:absolute;
-        bottom:80px;
+        top:48%;
         width:100%;
-        font-size:28px;
+        font-size:40px;
         font-weight:bold;
-        color:#fff;
+        color:#000003;
         text-align:center;
+      }
+      .arabic {
+        font-family: "FFShamelRounded";
       }
     </style>
   </head>
@@ -42,20 +51,31 @@
       <button onclick="downloadCard()">Download</button>
       <br><br>
       <div id="card">
-        <img id="cardImage" src="https://cdn.hala.com/images/others/Hala-Eid-Adha.png" alt="image" crossorigin="anonymous">
+        <img id="cardImage" src="https://www.image2url.com/r2/default/images/1779631070354-7307ed5b-cc76-465e-a748-1520f30605a5.jpeg" alt="image" crossorigin="anonymous">
         <div id="nameText"></div>
       </div>
       <script>
-        function generateCard()
-        {
-          var name=document.getElementById("username").value;
-          document.getElementById("nameText").innerText=name;
+        function isArabic(text) {
+          return /[\u0600-\u06FF]/.test(text);
         }
+        function generateCard() {
+  var name = document.getElementById("username").value;
+  var nameText = document.getElementById("nameText");
+
+  nameText.innerText = name;
+
+  if (isArabic(name)) {
+    nameText.classList.add("arabic");
+  } else {
+    nameText.classList.remove("arabic");
+  }
+}
         function downloadCard()
         {
           html2canvas(document.querySelector("#card"),{
             useCORS:true,
-            scale:2
+            scale:2,
+            backgroundColor:null
           }).then(canvas=>{
             var link=document.createElement("a");
             link.download="hala-eid-greeting.png";
